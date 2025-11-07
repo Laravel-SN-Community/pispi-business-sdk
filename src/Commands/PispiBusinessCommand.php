@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace PispiBusiness\PispiBusiness\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class PispiBusinessCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'pispi-business-sdk';
 
     public $description = 'My command';
 
