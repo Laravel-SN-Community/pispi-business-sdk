@@ -2,9 +2,9 @@
 
 namespace PispiBusiness\PispiBusiness;
 
+use PispiBusiness\PispiBusiness\Commands\PispiBusinessCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use PispiBusiness\PispiBusiness\Commands\PispiBusinessCommand;
 
 class PispiBusinessServiceProvider extends PackageServiceProvider
 {
