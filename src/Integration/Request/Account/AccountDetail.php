@@ -12,6 +12,6 @@ class AccountDetail extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/comptes/' . $this->numero;
+        return '/comptes/'.$this->numero;
     }
 }

@@ -13,6 +13,6 @@ class AliasList extends Request implements Paginatable
 
     public function resolveEndpoint(): string
     {
-        return  '/comptes/' . $this->numero . '/aliases';
+        return '/comptes/'.$this->numero.'/aliases';
     }
 }

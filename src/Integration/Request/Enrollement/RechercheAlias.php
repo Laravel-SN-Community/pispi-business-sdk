@@ -12,6 +12,6 @@ class RechercheAlias extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/aliases/' . $this->cle;
+        return '/aliases/'.$this->cle;
     }
 }
