@@ -16,7 +16,7 @@ class CreateAlias extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/comptes/' . $this->numero . '/aliases';
+        return '/comptes/'.$this->numero.'/aliases';
     }
 
     protected function defaultBody(): array

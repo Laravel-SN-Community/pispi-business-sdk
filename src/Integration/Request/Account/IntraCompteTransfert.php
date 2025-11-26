@@ -11,7 +11,7 @@ class IntraCompteTransfert extends Request
     public function __construct(
         private readonly string $txId,
         private readonly string $montant,
-        private readonly ?string $motif = null,
+        private readonly ?string $motif,
         private readonly string $payeurNum,
         private readonly string $payeNumero,
     ) {}

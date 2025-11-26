@@ -15,6 +15,6 @@ class DeleteAlias extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/comptes/' . $this->numero . '/aliases/' . $this->cle;
+        return '/comptes/'.$this->numero.'/aliases/'.$this->cle;
     }
 }
