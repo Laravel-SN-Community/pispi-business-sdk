@@ -6,7 +6,7 @@ use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
 use PispiBusiness\PispiBusiness\Enums\RefDocType;
 use Saloon\Http\Request;
 
-class CreateImmediateOnSitePaymentRequest extends Request
+class CreateImmediateEcommercePaymentRequest extends Request
 {
     protected $method = 'POST';
 
@@ -17,6 +17,7 @@ class CreateImmediateOnSitePaymentRequest extends Request
         private readonly string $payeurAlias,
         private readonly string $payeAlias,
         private readonly int $montant,
+        private readonly string $dateLimitePaiement,
         private readonly ?string $motif = null,
         private readonly ?string $logoUrl = null,
         private readonly ?string $refDocNumero = null,
@@ -37,6 +38,7 @@ class CreateImmediateOnSitePaymentRequest extends Request
             'payeurAlias' => $this->payeurAlias,
             'payeAlias' => $this->payeAlias,
             'montant' => $this->montant,
+            'dateLimitePaiement' => $this->dateLimitePaiement,
         ];
 
         if ($this->motif) {
