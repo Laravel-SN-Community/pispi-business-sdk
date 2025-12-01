@@ -17,7 +17,7 @@ class CreateBnplPaymentRequest extends Request
         private readonly string $payeurAlias,
         private readonly string $payeAlias,
         private readonly int $montant,
-        private readonly bool $debitDiffere = true,
+        private readonly bool $debitDiffere,
         private readonly array $remise,
         private readonly ?string $motif = null,
         private readonly ?string $logoUrl = null,
