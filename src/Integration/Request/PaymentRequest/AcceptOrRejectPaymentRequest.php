@@ -8,7 +8,7 @@ class AcceptOrRejectPaymentRequest extends Request
 {
     protected $method = 'PUT';
 
-    public function __construct(private readonly string $txId, private readonly bool $decision = true) {}
+    public function __construct(private readonly string $txId, private readonly bool $decision) {}
 
     public function resolveEndpoint(): string
     {

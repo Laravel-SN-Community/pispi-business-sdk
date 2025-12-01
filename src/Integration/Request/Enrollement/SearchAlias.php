@@ -4,7 +4,7 @@ namespace PispiBusiness\PispiBusiness\Integration\Request\Enrollement;
 
 use Saloon\Http\Request;
 
-class RechercheAlias extends Request
+class SearchAlias extends Request
 {
     protected $method = 'GET';
 
