@@ -3,25 +3,24 @@
 namespace PispiBusiness\PispiBusiness;
 
 use PispiBusiness\PispiBusiness\Enums\AliasType;
-use PispiBusiness\PispiBusiness\Enums\RefDocType;
-use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;
 use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
+use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;
+use PispiBusiness\PispiBusiness\Enums\RefDocType;
 use PispiBusiness\PispiBusiness\Integration\PiBusnessConnector;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountList;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraAcccountTransfertList;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\AliasList;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\CreateAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\DeleteAlias;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountList;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountDetail;
 use PispiBusiness\PispiBusiness\Integration\Request\Enrollement\SearchAlias;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\PaymentRequestList;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraAcccountTransfertList;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\CheckPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\ConfirmPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\PaymentRequestList;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplEcommercePaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateImmediateEcommercePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplPaymentRequest;
 
 class PispiBusiness
 {
@@ -101,8 +100,7 @@ class PispiBusiness
         ?string $instructionId = null,
         ?string $size = null,
         ?string $sort = null,
-    )
-    {
+    ) {
         $response = $this->connector->send(new PaymentRequestList(
             payeAlias: $payeAlias,
             payeCompte: $payeCompte,
@@ -148,11 +146,11 @@ class PispiBusiness
     }
 
     public function createBnplPaymentRequest(
-        string $txId, 
-        bool $confirmation, 
-        PaymentRequestCategory $category, 
-        string $payeurAlias, 
-        string $payeAlias, 
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
         int $montant,
         bool $debitDiffere,
         array $remise,
@@ -160,8 +158,7 @@ class PispiBusiness
         ?string $logoUrl = null,
         ?string $refDocNumero = null,
         ?RefDocType $refDocType = null,
-    )
-    {
+    ) {
         $response = $this->connector->send(new CreateBnplPaymentRequest(
             txId: $txId,
             confirmation: $confirmation,
@@ -181,11 +178,11 @@ class PispiBusiness
     }
 
     public function createBnplEcommercePaymentRequest(
-        string $txId, 
-        bool $confirmation, 
-        PaymentRequestCategory $category, 
-        string $payeurAlias, 
-        string $payeAlias, 
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
         int $montant,
         bool $debitDiffere,
         array $remise,
@@ -193,8 +190,7 @@ class PispiBusiness
         ?string $logoUrl = null,
         ?string $refDocNumero = null,
         ?RefDocType $refDocType = null,
-    )
-    {
+    ) {
         $response = $this->connector->send(new CreateBnplEcommercePaymentRequest(
             txId: $txId,
             confirmation: $confirmation,
@@ -209,6 +205,7 @@ class PispiBusiness
             refDocNumero: $refDocNumero,
             refDocType: $refDocType,
         ));
+
         return $response->json();
     }
 }
