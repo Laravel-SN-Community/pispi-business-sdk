@@ -37,6 +37,9 @@ use PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\Paym
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\PaymentRequest\SendPaymentRequest\CreateInvoicePaymentWithoutDiscountRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\PaymentRequest\SendPaymentRequest\CreatePicashPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\PaymentRequest\SendPaymentRequest\CreatePicoPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessRefund\CancellationRequest\CreatePaymentCancellationRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessRefund\CancellationRequest\RespondToCancellationRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessRefund\Refund\Refund;
 use PispiBusiness\PispiBusiness\Integration\Request\Enrollement\SearchAlias;
 
 class PispiBusiness
@@ -569,6 +572,27 @@ class PispiBusiness
     public function confirmBulkPayment(string $instructionId, bool $decision)
     {
         $response = $this->connector->send(new ConfirmBulkPayment($instructionId, $decision));
+
+        return $response->json();
+    }
+
+    public function refund(string $end2endId)
+    {
+        $response = $this->connector->send(new Refund($end2endId));
+
+        return $response->json();
+    }
+
+    public function createPaymentCancellationRequest(string $end2endId, string $raison)
+    {
+        $response = $this->connector->send(new CreatePaymentCancellationRequest($end2endId, $raison));
+
+        return $response->json();
+    }
+
+    public function respondToCancellationRequest(string $end2endId, bool $decision)
+    {
+        $response = $this->connector->send(new RespondToCancellationRequest($end2endId, $decision));
 
         return $response->json();
     }
