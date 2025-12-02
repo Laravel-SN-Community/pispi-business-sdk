@@ -14,6 +14,9 @@ use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\AliasList;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\CreateAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\DeleteAlias;
+use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\BulkPaymentRequestDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\ConfirmBulkPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\CreateBulkPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\Enrollement\SearchAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\CheckPaymentRequest;
@@ -401,6 +404,38 @@ class PispiBusiness
             refDocNumero: $refDocNumero,
             refDocType: $refDocType,
         ));
+
+        return $response->json();
+    }
+
+    public function createBulkPaymentRequest(
+        string $payeAlias,
+        string $instructionId,
+        array $transactions,
+        ?bool $confirmation,
+        ?string $motif = null,
+    ) {
+        $response = $this->connector->send(new CreateBulkPaymentRequest(
+            payeAlias: $payeAlias,
+            instructionId: $instructionId,
+            transactions: $transactions,
+            confirmation: $confirmation,
+            motif: $motif,
+        ));
+
+        return $response->json();
+    }
+
+    public function getBulkPaymentRequestDetail(string $instructionId)
+    {
+        $response = $this->connector->send(new BulkPaymentRequestDetail($instructionId));
+
+        return $response->json();
+    }
+
+    public function confirmBulkPaymentRequest(string $instructionId, bool $decision)
+    {
+        $response = $this->connector->send(new ConfirmBulkPaymentRequest($instructionId, $decision));
 
         return $response->json();
     }
