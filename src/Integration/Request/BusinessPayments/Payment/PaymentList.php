@@ -1,6 +1,6 @@
 <?php
 
-namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments;
+namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\Payment;
 
 use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
 use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;

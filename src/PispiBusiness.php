@@ -20,10 +20,10 @@ use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\CreateBul
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\BulkPayments\BulkPaymentDetail;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\BulkPayments\ConfirmBulkPayment;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\BulkPayments\CreateBulkPayment;
-use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\ConfirmPayment;
-use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\CreatePayment;
-use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\PaymentDetail;
-use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\PaymentList;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\Payment\ConfirmPayment;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\Payment\CreatePayment;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\Payment\PaymentDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\Payment\PaymentList;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\VerifiedPayment;
 use PispiBusiness\PispiBusiness\Integration\Request\Enrollement\SearchAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
