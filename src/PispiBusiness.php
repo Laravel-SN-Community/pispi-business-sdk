@@ -3,33 +3,38 @@
 namespace PispiBusiness\PispiBusiness;
 
 use PispiBusiness\PispiBusiness\Enums\AliasType;
-use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
-use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;
 use PispiBusiness\PispiBusiness\Enums\RefDocType;
+use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;
+use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
 use PispiBusiness\PispiBusiness\Integration\PiBusnessConnector;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountDetail;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountList;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraAcccountTransfertList;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\AliasList;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\CreateAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\DeleteAlias;
-use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\BulkPaymentRequestDetail;
-use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\ConfirmBulkPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\CreateBulkPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountList;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountDetail;
 use PispiBusiness\PispiBusiness\Integration\Request\Enrollement\SearchAlias;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\PaymentList;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\CreatePayment;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\PaymentDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\ConfirmPayment;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\VerifiedPayment;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\PaymentRequestList;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraAcccountTransfertList;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\CheckPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\ConfirmPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\PaymentRequestList;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplEcommercePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\BulkPaymentRequestDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\CreateBulkPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\ConfirmBulkPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateImmediateEcommercePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreatePicoPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreatePicashPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplEcommercePaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateImmediateOnSitePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateImmediateEcommercePaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateInvoicePaymentWithDiscountRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateInvoicePaymentWithoutDiscountRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreatePicashPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreatePicoPaymentRequest;
 
 class PispiBusiness
 {
@@ -436,6 +441,99 @@ class PispiBusiness
     public function confirmBulkPaymentRequest(string $instructionId, bool $decision)
     {
         $response = $this->connector->send(new ConfirmBulkPaymentRequest($instructionId, $decision));
+
+        return $response->json();
+    }
+
+    public function getPaymentList(
+        ?string $payeAlias = null,
+        ?string $payeCompte = null,
+        ?string $payeurAlias = null,
+        ?string $payeurCompte = null,
+        ?string $dateEnvoi = null,
+        ?string $dateIrrevocabilite = null,
+        ?PaymentRequestStatus $status = null,
+        ?PaymentRequestCategory $category = null,
+        ?int $montantAchat = null,
+        ?int $montantRetrait = null,
+        ?string $motif = null,
+        ?string $refDocType = null,
+        ?string $instructionId = null,
+        ?string $txId = null,
+        ?string $annulationStatus = null,
+        ?string $annulationMotif = null,
+        ?string $retourStatus = null,
+        ?string $size = null,
+        ?string $sort = null,
+    ) {
+        $response = $this->connector->send(new PaymentList(
+            payeAlias: $payeAlias,
+            payeCompte: $payeCompte,
+            payeurAlias: $payeurAlias,
+            payeurCompte: $payeurCompte,
+            dateEnvoi: $dateEnvoi,
+            dateIrrevocabilite: $dateIrrevocabilite,
+            status: $status,
+            category: $category,
+            montantAchat: $montantAchat,
+            montantRetrait: $montantRetrait,
+            motif: $motif,
+            refDocType: $refDocType,
+            instructionId: $instructionId,
+            txId: $txId,
+            annulationStatus: $annulationStatus,
+            annulationMotif: $annulationMotif,
+            retourStatus: $retourStatus,
+            size: $size,
+            sort: $sort,
+        ));
+
+        return $response->json();
+    }
+
+    public function createPayment(
+        string $txId,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        bool $confirmation,
+        ?string $motif = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+        ?bool $programme = null,
+    ) {
+        $response = $this->connector->send(new CreatePayment(
+            txId: $txId,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            confirmation: $confirmation,
+            motif: $motif,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+            programme: $programme,
+        ));
+
+        return $response->json();
+    }
+
+    public function getPaymentDetail(string $txId)
+    {
+        $response = $this->connector->send(new PaymentDetail($txId));
+
+        return $response->json();
+    }
+
+    public function confirmPayment(string $txId, bool $decision)
+    {
+        $response = $this->connector->send(new ConfirmPayment($txId, $decision));
+
+        return $response->json();
+    }
+
+    public function getVerifiedPayment(string $end2endId)
+    {
+        $response = $this->connector->send(new VerifiedPayment($end2endId));
 
         return $response->json();
     }
