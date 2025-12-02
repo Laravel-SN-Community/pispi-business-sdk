@@ -2,8 +2,8 @@
 
 namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments;
 
-use Saloon\Http\Request;
 use PispiBusiness\PispiBusiness\Enums\RefDocType;
+use Saloon\Http\Request;
 
 class CreatePayment extends Request
 {
