@@ -1,6 +1,6 @@
 <?php
 
-namespace PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest;
+namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\BulkPaymentRequest;
 
 use Saloon\Http\Request;
 

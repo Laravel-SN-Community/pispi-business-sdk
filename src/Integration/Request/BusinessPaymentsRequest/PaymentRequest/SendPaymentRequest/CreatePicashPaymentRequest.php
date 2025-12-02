@@ -1,12 +1,12 @@
 <?php
 
-namespace PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest;
+namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\PaymentRequest\SendPaymentRequest;
 
 use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
 use PispiBusiness\PispiBusiness\Enums\RefDocType;
 use Saloon\Http\Request;
 
-class CreateInvoicePaymentWithoutDiscountRequest extends Request
+class CreatePicashPaymentRequest extends Request
 {
     protected $method = 'POST';
 
@@ -17,8 +17,8 @@ class CreateInvoicePaymentWithoutDiscountRequest extends Request
         private readonly string $payeurAlias,
         private readonly string $payeAlias,
         private readonly int $montant,
-        private readonly string $dateLimitePaiement,
-        private readonly ?string $dateLimiteReponse = null,
+        private readonly int $montantRetrait,
+        private readonly int $montantFrais,
         private readonly ?string $motif = null,
         private readonly ?string $logoUrl = null,
         private readonly ?string $refDocNumero = null,
@@ -39,12 +39,9 @@ class CreateInvoicePaymentWithoutDiscountRequest extends Request
             'payeurAlias' => $this->payeurAlias,
             'payeAlias' => $this->payeAlias,
             'montant' => $this->montant,
-            'dateLimitePaiement' => $this->dateLimitePaiement,
+            'montantRetrait' => $this->montantRetrait,
+            'montantFrais' => $this->montantFrais,
         ];
-
-        if ($this->dateLimiteReponse) {
-            $body['dateLimiteReponse'] = $this->dateLimiteReponse;
-        }
 
         if ($this->motif) {
             $body['motif'] = $this->motif;

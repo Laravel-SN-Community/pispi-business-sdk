@@ -1,12 +1,12 @@
 <?php
 
-namespace PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest;
+namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\PaymentRequest\SendPaymentRequest;
 
 use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
 use PispiBusiness\PispiBusiness\Enums\RefDocType;
 use Saloon\Http\Request;
 
-class CreateBnplEcommercePaymentRequest extends Request
+class CreateImmediateEcommercePaymentRequest extends Request
 {
     protected $method = 'POST';
 
@@ -17,8 +17,7 @@ class CreateBnplEcommercePaymentRequest extends Request
         private readonly string $payeurAlias,
         private readonly string $payeAlias,
         private readonly int $montant,
-        private readonly bool $debitDiffere,
-        private readonly array $remise,
+        private readonly string $dateLimitePaiement,
         private readonly ?string $motif = null,
         private readonly ?string $logoUrl = null,
         private readonly ?string $refDocNumero = null,
@@ -39,8 +38,7 @@ class CreateBnplEcommercePaymentRequest extends Request
             'payeurAlias' => $this->payeurAlias,
             'payeAlias' => $this->payeAlias,
             'montant' => $this->montant,
-            'debitDiffere' => $this->debitDiffere,
-            'remise' => $this->remise,
+            'dateLimitePaiement' => $this->dateLimitePaiement,
         ];
 
         if ($this->motif) {

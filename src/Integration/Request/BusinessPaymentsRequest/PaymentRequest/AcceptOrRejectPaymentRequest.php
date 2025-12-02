@@ -1,10 +1,10 @@
 <?php
 
-namespace PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest;
+namespace PispiBusiness\PispiBusiness\Integration\Request\BusinessPaymentsRequest\PaymentRequest;
 
 use Saloon\Http\Request;
 
-class ConfirmPaymentRequest extends Request
+class AcceptOrRejectPaymentRequest extends Request
 {
     protected $method = 'PUT';
 
@@ -12,7 +12,7 @@ class ConfirmPaymentRequest extends Request
 
     public function resolveEndpoint(): string
     {
-        return '/demandes-paiements/'.$this->txId.'/confirmations';
+        return '/demandes-paiements/'.$this->txId.'/responses';
     }
 
     protected function defaultBody(): array
