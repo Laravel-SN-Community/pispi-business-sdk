@@ -17,6 +17,9 @@ use PispiBusiness\PispiBusiness\Integration\Request\Alias\DeleteAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\BulkPaymentRequestDetail;
 use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\ConfirmBulkPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\BulkPaymentRequest\CreateBulkPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\BulkPayments\BulkPaymentDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\BulkPayments\ConfirmBulkPayment;
+use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\BulkPayments\CreateBulkPayment;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\ConfirmPayment;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\CreatePayment;
 use PispiBusiness\PispiBusiness\Integration\Request\BusinessPayments\PaymentDetail;
@@ -534,6 +537,38 @@ class PispiBusiness
     public function getVerifiedPayment(string $end2endId)
     {
         $response = $this->connector->send(new VerifiedPayment($end2endId));
+
+        return $response->json();
+    }
+
+    public function createBulkPayment(
+        string $instructionId,
+        string $payeurAlias,
+        array $transactions,
+        bool $confirmation = true,
+        ?string $motif = null,
+    ) {
+        $response = $this->connector->send(new CreateBulkPayment(
+            instructionId: $instructionId,
+            payeurAlias: $payeurAlias,
+            transactions: $transactions,
+            confirmation: $confirmation,
+            motif: $motif,
+        ));
+
+        return $response->json();
+    }
+
+    public function getBulkPaymentDetail(string $instructionId, ?PaymentRequestStatus $status = null)
+    {
+        $response = $this->connector->send(new BulkPaymentDetail($instructionId, $status));
+
+        return $response->json();
+    }
+
+    public function confirmBulkPayment(string $instructionId, bool $decision)
+    {
+        $response = $this->connector->send(new ConfirmBulkPayment($instructionId, $decision));
 
         return $response->json();
     }
