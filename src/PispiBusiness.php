@@ -3,25 +3,30 @@
 namespace PispiBusiness\PispiBusiness;
 
 use PispiBusiness\PispiBusiness\Enums\AliasType;
-use PispiBusiness\PispiBusiness\Enums\RefDocType;
-use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;
 use PispiBusiness\PispiBusiness\Enums\PaymentRequestCategory;
+use PispiBusiness\PispiBusiness\Enums\PaymentRequestStatus;
+use PispiBusiness\PispiBusiness\Enums\RefDocType;
 use PispiBusiness\PispiBusiness\Integration\PiBusnessConnector;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountDetail;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountList;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraAcccountTransfertList;
+use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\AliasList;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\CreateAlias;
 use PispiBusiness\PispiBusiness\Integration\Request\Alias\DeleteAlias;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountList;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\AccountDetail;
 use PispiBusiness\PispiBusiness\Integration\Request\Enrollement\SearchAlias;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraCompteTransfert;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\PaymentRequestList;
-use PispiBusiness\PispiBusiness\Integration\Request\Account\IntraAcccountTransfertList;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\CheckPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\ConfirmPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\AcceptOrRejectPaymentRequest;
-use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\PaymentRequestList;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplEcommercePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateBnplPaymentRequest;
 use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateImmediateEcommercePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateImmediateOnSitePaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateInvoicePaymentWithDiscountRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreateInvoicePaymentWithoutDiscountRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreatePicashPaymentRequest;
+use PispiBusiness\PispiBusiness\Integration\Request\PaymentRequest\SendPaymentRequest\CreatePicoPaymentRequest;
 
 class PispiBusiness
 {
@@ -101,8 +106,7 @@ class PispiBusiness
         ?string $instructionId = null,
         ?string $size = null,
         ?string $sort = null,
-    )
-    {
+    ) {
         $response = $this->connector->send(new PaymentRequestList(
             payeAlias: $payeAlias,
             payeCompte: $payeCompte,
@@ -148,11 +152,11 @@ class PispiBusiness
     }
 
     public function createBnplPaymentRequest(
-        string $txId, 
-        bool $confirmation, 
-        PaymentRequestCategory $category, 
-        string $payeurAlias, 
-        string $payeAlias, 
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
         int $montant,
         bool $debitDiffere,
         array $remise,
@@ -160,8 +164,7 @@ class PispiBusiness
         ?string $logoUrl = null,
         ?string $refDocNumero = null,
         ?RefDocType $refDocType = null,
-    )
-    {
+    ) {
         $response = $this->connector->send(new CreateBnplPaymentRequest(
             txId: $txId,
             confirmation: $confirmation,
@@ -181,11 +184,11 @@ class PispiBusiness
     }
 
     public function createBnplEcommercePaymentRequest(
-        string $txId, 
-        bool $confirmation, 
-        PaymentRequestCategory $category, 
-        string $payeurAlias, 
-        string $payeAlias, 
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
         int $montant,
         bool $debitDiffere,
         array $remise,
@@ -193,8 +196,7 @@ class PispiBusiness
         ?string $logoUrl = null,
         ?string $refDocNumero = null,
         ?RefDocType $refDocType = null,
-    )
-    {
+    ) {
         $response = $this->connector->send(new CreateBnplEcommercePaymentRequest(
             txId: $txId,
             confirmation: $confirmation,
@@ -209,6 +211,197 @@ class PispiBusiness
             refDocNumero: $refDocNumero,
             refDocType: $refDocType,
         ));
+
+        return $response->json();
+    }
+
+    public function createImmediateEcommercePaymentRequest(
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        string $dateLimitePaiement,
+        ?string $motif = null,
+        ?string $logoUrl = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+    ) {
+        $response = $this->connector->send(new CreateImmediateEcommercePaymentRequest(
+            txId: $txId,
+            confirmation: $confirmation,
+            category: $category,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            dateLimitePaiement: $dateLimitePaiement,
+            motif: $motif,
+            logoUrl: $logoUrl,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+        ));
+
+        return $response->json();
+    }
+
+    public function createImmediateOnSitePaymentRequest(
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        ?string $motif = null,
+        ?string $logoUrl = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+    ) {
+        $response = $this->connector->send(new CreateImmediateOnSitePaymentRequest(
+            txId: $txId,
+            confirmation: $confirmation,
+            category: $category,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            motif: $motif,
+            logoUrl: $logoUrl,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+        ));
+
+        return $response->json();
+    }
+
+    public function createInvoicePaymentWithDiscountRequest(
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        string $dateLimitePaiement,
+        string $dateLimiteReponse,
+        array $remise,
+        ?string $motif = null,
+        ?string $logoUrl = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+    ) {
+        $response = $this->connector->send(new CreateInvoicePaymentWithDiscountRequest(
+            txId: $txId,
+            confirmation: $confirmation,
+            category: $category,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            dateLimitePaiement: $dateLimitePaiement,
+            dateLimiteReponse: $dateLimiteReponse,
+            remise: $remise,
+            motif: $motif,
+            logoUrl: $logoUrl,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+        ));
+
+        return $response->json();
+    }
+
+    public function createInvoicePaymentWithoutDiscountRequest(
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        string $dateLimitePaiement,
+        ?string $dateLimiteReponse = null,
+        ?string $motif = null,
+        ?string $logoUrl = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+    ) {
+        $response = $this->connector->send(new CreateInvoicePaymentWithoutDiscountRequest(
+            txId: $txId,
+            confirmation: $confirmation,
+            category: $category,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            dateLimitePaiement: $dateLimitePaiement,
+            dateLimiteReponse: $dateLimiteReponse,
+            motif: $motif,
+            logoUrl: $logoUrl,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+        ));
+
+        return $response->json();
+    }
+
+    public function createPicashPaymentRequest(
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        int $montantRetrait,
+        int $montantFrais,
+        ?string $motif = null,
+        ?string $logoUrl = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+    ) {
+        $response = $this->connector->send(new CreatePicashPaymentRequest(
+            txId: $txId,
+            confirmation: $confirmation,
+            category: $category,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            montantRetrait: $montantRetrait,
+            montantFrais: $montantFrais,
+            motif: $motif,
+            logoUrl: $logoUrl,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+        ));
+
+        return $response->json();
+    }
+
+    public function createPicoPaymentRequest(
+        string $txId,
+        bool $confirmation,
+        PaymentRequestCategory $category,
+        string $payeurAlias,
+        string $payeAlias,
+        int $montant,
+        int $montantAchat,
+        int $montantRetrait,
+        int $montantFrais,
+        ?string $motif = null,
+        ?string $logoUrl = null,
+        ?string $refDocNumero = null,
+        ?RefDocType $refDocType = null,
+    ) {
+        $response = $this->connector->send(new CreatePicoPaymentRequest(
+            txId: $txId,
+            confirmation: $confirmation,
+            category: $category,
+            payeurAlias: $payeurAlias,
+            payeAlias: $payeAlias,
+            montant: $montant,
+            montantAchat: $montantAchat,
+            montantRetrait: $montantRetrait,
+            montantFrais: $montantFrais,
+            motif: $motif,
+            logoUrl: $logoUrl,
+            refDocNumero: $refDocNumero,
+            refDocType: $refDocType,
+        ));
+
         return $response->json();
     }
 }
